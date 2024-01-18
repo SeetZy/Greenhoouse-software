@@ -8,16 +8,18 @@ class OptionsButtons extends StatelessWidget {
       {super.key,
       required this.pressed,
       required this.title,
-      required this.color});
+      required this.color,
+      required this.width});
 
   final void Function() pressed;
   final String title;
   final Color color;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 110,
+      width: width,
       height: 30,
       child: OutlinedButton(
         onPressed: () => pressed(),

@@ -3,6 +3,7 @@
 /*
   * Library imports
  */
+import 'package:app/utils/nav.utils.dart';
 import 'package:flutter/material.dart';
 import 'package:app/utils/global.variables.dart';
 // ? https://pub.dev/packages/syncfusion_flutter_charts
@@ -18,25 +19,27 @@ class ChartsView extends StatefulWidget {
   const ChartsView({
     super.key,
     required this.title,
+    required this.pressed,
   });
 
   final String title;
+  final VoidCallback pressed;
 
   @override
   _ChartsViewState createState() => _ChartsViewState();
 }
 
 class _ChartsViewState extends State<ChartsView> {
-  bool isAllTimeView = false;
-  Color montlyColor = GlobalVariables.secondaryColor;
-  Color allTimeColor = Colors.white;
+  bool monthlyView = false;
+  Color dailyColor = GlobalVariables.primaryColor;
+  Color monthlyColor = Colors.white;
 
+  List<DataLevels> dailyData = DataProvider.daily;
   List<DataLevels> monthlyData = DataProvider.montly;
-  List<DataLevels> allTimeData = DataProvider.allTime;
 
   @override
   Widget build(BuildContext context) {
-    List<DataLevels> data = isAllTimeView ? allTimeData : monthlyData;
+    List<DataLevels> data = monthlyView ? monthlyData : dailyData;
 
     return Column(
       children: [
@@ -53,28 +56,33 @@ class _ChartsViewState extends State<ChartsView> {
               OptionsButtons(
                 pressed: () {
                   setState(() {
-                    isAllTimeView = false;
-                    montlyColor = GlobalVariables.secondaryColor;
-                    allTimeColor = Colors.white;
+                    monthlyView = false;
+                    dailyColor = GlobalVariables.primaryColor;
+                    monthlyColor = Colors.white;
                   });
                 },
-                color: montlyColor,
-                title: 'Monthly',
+                color: dailyColor,
+                title: 'Daily',
+                width: 70,
               ),
               const SizedBox(width: 10),
               OptionsButtons(
-                  pressed: () {
-                    setState(() {
-                      isAllTimeView = true;
-                      montlyColor = Colors.white;
-                      allTimeColor = GlobalVariables.secondaryColor;
-                    });
-                  },
-                  color: allTimeColor,
-                  title: 'All Time'),
+                pressed: () {
+                  setState(() {
+                    monthlyView = true;
+                    dailyColor = Colors.white;
+                    monthlyColor = GlobalVariables.primaryColor;
+                  });
+                },
+                color: monthlyColor,
+                title: 'Monthly',
+                width: 85,
+              ),
             ],
           ),
         ),
+
+        // Data chart
         SfCartesianChart(
           primaryXAxis: CategoryAxis(),
           series: <ChartSeries<DataLevels, String>>[
@@ -86,6 +94,18 @@ class _ChartsViewState extends State<ChartsView> {
             ),
           ],
         ),
+
+        // Button to see data more detailed
+        Container(
+          alignment: Alignment.centerRight,
+          padding: const EdgeInsets.all(8.0),
+          child: OptionsButtons(
+            pressed: widget.pressed,
+            title: 'See More',
+            color: Colors.white,
+            width: 110,
+          ),
+        )
       ],
     );
   }

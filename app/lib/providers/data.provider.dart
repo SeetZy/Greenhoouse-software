@@ -8,7 +8,7 @@ class DataProvider {
   List<String> lastSetValues = [];
   List<String> averages = [];
 
-  static List<DataLevels> allTime = [
+  static List<DataLevels> montly = [
     DataLevels('Jan', 35),
     DataLevels('Feb', 28),
     DataLevels('Mar', 34),
@@ -23,7 +23,7 @@ class DataProvider {
     DataLevels('Dec', 32),
   ];
 
-  static List<DataLevels> montly = [
+  static List<DataLevels> daily = [
     DataLevels('0-5', 34),
     DataLevels('5-10', 28),
     DataLevels('10-15', 34),

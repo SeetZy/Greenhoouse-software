@@ -29,7 +29,7 @@ class _AppState extends State<App> {
             const ColorScheme.dark(primary: GlobalVariables.primaryColor),
       ),
       home: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: GlobalVariables.bgColor,
         appBar: AppBar(
           backgroundColor: GlobalVariables.primaryColor,
           title: const Text(
