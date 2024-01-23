@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 
 class GlobalVariables {
   // Global color variables
-  static const navColor = Color(0xFF638889);
-  static const bgColor = Color(0xFFF9EFDB);
+  static const navColor = Color.fromARGB(255, 61, 212, 187);
+  static const bgColor = Color.fromARGB(255, 252, 251, 251);
 
-  static const primaryColor = Color(0xFF638889);
-  static const secondaryColor = Color(0xFF9DBC98);
+  static const primaryColor = Color(0xFF99ffbb);
+  static const secondaryColor = Color(0xFFffffff);
 }

@@ -3,12 +3,11 @@
 /*
   * Library imports
  */
-import 'package:app/utils/nav.utils.dart';
 import 'package:flutter/material.dart';
 import 'package:app/utils/global.variables.dart';
 // ? https://pub.dev/packages/syncfusion_flutter_charts
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:app/providers/data.provider.dart';
+import 'package:app/service/data.service.dart';
 
 /*
   * Page/Component imports
@@ -19,11 +18,13 @@ class ChartsView extends StatefulWidget {
   const ChartsView({
     super.key,
     required this.title,
-    required this.pressed,
+    required this.dailyData,
+    required this.monthlyData,
   });
 
   final String title;
-  final VoidCallback pressed;
+  final List<DataLevels> dailyData;
+  final List<DataLevels> monthlyData;
 
   @override
   _ChartsViewState createState() => _ChartsViewState();
@@ -31,15 +32,12 @@ class ChartsView extends StatefulWidget {
 
 class _ChartsViewState extends State<ChartsView> {
   bool monthlyView = false;
-  Color dailyColor = GlobalVariables.primaryColor;
-  Color monthlyColor = Colors.white;
-
-  List<DataLevels> dailyData = DataProvider.daily;
-  List<DataLevels> monthlyData = DataProvider.montly;
+  Color dailyColor = GlobalVariables.navColor;
+  Color monthlyColor = Colors.black;
 
   @override
   Widget build(BuildContext context) {
-    List<DataLevels> data = monthlyView ? monthlyData : dailyData;
+    List<DataLevels> data = monthlyView ? widget.monthlyData : widget.dailyData;
 
     return Column(
       children: [
@@ -50,15 +48,15 @@ class _ChartsViewState extends State<ChartsView> {
               Expanded(
                 child: Text(
                   widget.title,
-                  style: const TextStyle(fontSize: 20, color: Colors.white),
+                  style: const TextStyle(fontSize: 20, color: Colors.black),
                 ),
               ),
               OptionsButtons(
                 pressed: () {
                   setState(() {
                     monthlyView = false;
-                    dailyColor = GlobalVariables.primaryColor;
-                    monthlyColor = Colors.white;
+                    dailyColor = GlobalVariables.navColor;
+                    monthlyColor = Colors.black;
                   });
                 },
                 color: dailyColor,
@@ -70,8 +68,8 @@ class _ChartsViewState extends State<ChartsView> {
                 pressed: () {
                   setState(() {
                     monthlyView = true;
-                    dailyColor = Colors.white;
-                    monthlyColor = GlobalVariables.primaryColor;
+                    dailyColor = Colors.black;
+                    monthlyColor = GlobalVariables.navColor;
                   });
                 },
                 color: monthlyColor,
@@ -94,18 +92,6 @@ class _ChartsViewState extends State<ChartsView> {
             ),
           ],
         ),
-
-        // Button to see data more detailed
-        Container(
-          alignment: Alignment.centerRight,
-          padding: const EdgeInsets.all(8.0),
-          child: OptionsButtons(
-            pressed: widget.pressed,
-            title: 'See More',
-            color: Colors.white,
-            width: 110,
-          ),
-        )
       ],
     );
   }
